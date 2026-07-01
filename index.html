@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogicLab - Belajar Logika, Bangun Solusi</title>
+    <title>LogicLab Pro - Arsitektur & Deployment</title>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --dark-bg: #f8f9fa;
-            --card-bg: #ffffff;
-            --text: #2d3436;
-            --success: #00b894;
-            --danger: #d63031;
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --dark-bg: #1e1e24;
+            --card-bg: #2a2a35;
+            --text: #e0e1dd;
+            --success: #4eb783;
+            --danger: #ff5964;
+            --terminal-bg: #0d0e15;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Fira Code', 'Segoe UI', monospace;
             background-color: var(--dark-bg);
             color: var(--text);
             margin: 0;
@@ -24,7 +25,7 @@
         }
 
         .dashboard {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2.5fr 1fr;
@@ -34,106 +35,81 @@
         .main-panel, .side-panel {
             background: var(--card-bg);
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #edf2f7;
+            border-bottom: 2px solid #3d3d4d;
             padding-bottom: 15px;
+            margin-bottom: 25px;
         }
 
-        .logo h1 { color: var(--primary); margin: 0; }
-        .stats-badges span {
-            background: #ffeaa7;
-            padding: 5px 12px;
-            border-radius: 20px;
-            margin-left: 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .progress-container {
-            background: #eee;
-            border-radius: 10px;
-            height: 20px;
-            width: 100%;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            height: 100%;
-            width: 20%;
-            transition: width 0.5s ease;
-        }
-
+        h1, h2, h3 { color: #fff; }
+        
         .level-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
         }
 
         .level-card {
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             text-align: center;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #3d3d4d;
+            background: #22222a;
+            transition: all 0.2s;
         }
 
-        .level-card:hover { transform: translateY(-3px); }
-        .completed { background-color: #e6f4ea; color: var(--success); border-color: var(--success); }
-        .active { background-color: #f3f0ff; color: var(--primary); border-color: var(--primary); }
-        .locked { background-color: #edf2f7; color: #a0aec0; cursor: not-allowed; }
+        .level-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .active { border-color: var(--primary); color: #fff; background: rgba(74, 111, 165, 0.2); }
+        .completed { border-color: var(--success); color: var(--success); }
+        .locked { opacity: 0.4; cursor: not-allowed; }
 
         .workspace {
-            margin-top: 30px;
-            border-top: 2px dashed var(--secondary);
-            padding-top: 20px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-
-        .box {
-            background: #f1f2f6;
-            padding: 15px;
+            background: #22222a;
+            border: 1px solid #3d3d4d;
             border-radius: 8px;
-            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin-top: 25px;
         }
 
-        pre {
-            background: #2d3436;
-            color: #f1f2f6;
-            padding: 10px;
-            border-radius: 5px;
+        .code-block {
+            background: var(--terminal-bg);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
             overflow-x: auto;
+            color: #a9b7c6;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
 
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-family: monospace;
+        .quiz-option {
+            background: #2a2a35;
+            border: 1px solid #3d3d4d;
+            padding: 12px;
+            border-radius: 6px;
             margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover { background: #343444; }
+
+        .terminal {
+            background: var(--terminal-bg);
+            color: #00ff66;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 80px;
+            white-space: pre-line;
+            border: 1px solid #222;
         }
 
         button {
@@ -141,299 +117,226 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
         }
-
-        button:hover { background: #5649c0; }
-
-        .log-box {
-            background: #2d3436;
-            color: #00ff00;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: monospace;
-            min-height: 50px;
-            white-space: pre-line;
-            margin-top: 10px;
-        }
-
-        .petunjuk-style {
-            background-color: #fff9db;
-            border-left: 5px solid #fcc419;
+        button:hover { background: var(--secondary); }
+        
+        input[type="text"] {
+            background: var(--terminal-bg);
+            border: 1px solid #3d3d4d;
+            color: #fff;
             padding: 10px;
-            border-radius: 5px;
-            font-size: 0.95rem;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
 <div class="dashboard">
-    <!-- PANEL UTAMA -->
     <div class="main-panel">
         <header>
-            <div class="logo">
-                <h1>LogicLab 🧪</h1>
-                <small>Belajar Logika, Bangun Solusi</small>
-            </div>
-            <div class="stats-badges">
-                <span id="xp-display">✨ 0 XP</span>
-                <span>🔥 15 Streak</span>
-                <span>🏆 3 Badges</span>
-            </div>
+            <h1>LogicLab Pro 🧪</h1>
+            <p>Arsitektur Logika, Keamanan Kode, & Pipeline Deployment</p>
         </header>
 
-        <h2>Halo, Naqiya Salsabila! 👋</h2>
-        <p>Siap menyelesaikan tantangan praktik nyata hari ini?</p>
-        
-        <label>Total Progres Belajar:</label>
-        <div class="progress-container">
-            <div class="progress-bar" id="total-progress" style="width: 20%;"></div>
-        </div>
+        <h3>Peta Kompetensi Engineer</h3>
+        <div class="level-grid" id="level-maps"></div>
 
-        <h3>Peta Level Pembelajaran</h3>
-        <div class="level-grid" id="level-maps">
-            <!-- Diisi otomatis oleh JavaScript -->
-        </div>
-
-        <!-- WORKSPACE BERMAIN -->
-        <div class="workspace" id="arena-bermain" style="display:none;">
-            <!-- Konten level dimuat di sini -->
-        </div>
+        <div class="workspace" id="arena-bermain" style="display:none;"></div>
     </div>
 
-    <!-- PANEL SAMPING -->
     <div class="side-panel">
-        <h3>Progres Mingguan</h3>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-            <span>🟢 Sen</span><span>🟢 Sel</span><span>🟢 Rab</span><span>🟢 Kam</span><span>🔴 Jum</span><span>🔴 Sab</span><span>🔴 Min</span>
-        </div>
-        <hr>
-        <h3>Petunjuk Satpam 👮‍♂️</h3>
-        <div class="petunjuk-style" id="petunjuk-box">Pilih Level 1 untuk memulai petualangan logikamu!</div>
+        <h3>Edukasi Pipeline</h3>
+        <p>Seorang developer tidak hanya menulis kode, tapi juga memahami bagaimana infrastruktur mengeksekusinya.</p>
+        <hr style="border-color: #3d3d4d;">
+        <h4>Console Log Sistem</h4>
+        <div class="terminal" id="global-terminal">Sistem siap. Pilih modul di sebelah kiri untuk menganalisis arsitektur.</div>
     </div>
 </div>
 
 <script>
-    // DATA MODEL UTAMA APLIKASI (Materi & Challenge Nyata)
     const databaseLevel = {
         1: {
-            nama: "Level 1: Flowchart",
-            materi: "Flowchart adalah bagan alir untuk menggambarkan logika program sebelum ditulis menjadi kode. Simbol <b>Belah Ketupat (Diamond)</b> digunakan untuk mengambil keputusan (Branching/Kondisional).",
-            challenge: "Simbol flowchart apa yang digunakan untuk menyatakan proses pengecekan kondisi atau pilihan IF-ELSE?",
-            jawabanBenar: "belah ketupat",
-            hint: "Bentuk geometris bersisi empat yang menyerupai berlian/ketupat.",
-            xpBonus: 40
+            nama: "1. Analisis Aliran Data",
+            deskripsi: "Sebelum mendeploy aplikasi, kamu harus tahu bagaimana data mengalir di memori. Perhatikan manipulasi variabel di bawah.",
+            code: "a = 10\nb = 20\na = b\nb = 5\nprint(a)",
+            pertanyaan: "Berapakah nilai akhir dari variabel 'a' saat dicetak?",
+            pilihan: ["10", "20", "5", "Eror"],
+            jawaban: 1, // Indeks ke-1 yaitu "20"
+            edukasi: "Variabel menyimpan nilai berdasarkan urutan eksekusi (sequential). Saat `a = b`, variabel `a` mengambil nilai `b` saat itu (20). Perubahan `b = 5` setelahnya tidak mempengaruhi `a` karena alokasi memorinya berbeda."
         },
         2: {
-            nama: "Level 2: Variabel & Input",
-            materi: "Variabel digunakan untuk menyimpan data. Di Python, untuk mengambil data teks dari keyboard user kita menggunakan fungsi <code>input()</code>. Jika data ingin diolah menjadi angka aritmatika desimal, bungkus dengan <code>float()</code>.",
-            challenge: "Lengkapi kode berikut agar input teks dari user diubah menjadi tipe data angka pecahan:<br><br><code>angka = _______(input('Masukkan nilai: '))</code>",
-            jawabanBenar: "float",
-            hint: "Tipe data untuk angka desimal/pecahan di Python.",
-            xpBonus: 40
+            nama: "2. Vulnerability Audit",
+            deskripsi: "Mari audit kode kalkulator dasar. Kode di bawah ini rentan hancur (*crash*) di tangan pengguna.",
+            code: "def bagi(a, b):\n    return a / b\n\n# User menginput b = 0",
+            pertanyaan: "Eror (*Exception*) apa yang akan menghentikan paksa aplikasi jika fungsi di atas dijalankan dengan b = 0?",
+            pilihan: ["ValueError", "TypeError", "ZeroDivisionError", "NameError"],
+            jawaban: 2,
+            edukasi: "Di dalam arsitektur komputer, pembagian dengan nol menghasilkan nilai tak terdefinisi yang merusak alur kerja prosesor. Kita wajib menggunakan sistem pertahanan (Validasi/Try-Except) sebelum komputasi dilakukan."
         },
         3: {
-            nama: "Level 3: Percabangan IF-ELSE",
-            materi: "Percabangan mengeksekusi blok kode tertentu jika kondisi bernilai True. Untuk mengecek keterbagian (seperti angka genap), gunakan operator modulo <code>%</code> (sisa hasil bagi) disusul operator perbandingan <code>==</code>.",
-            challenge: "Lengkapi kondisi IF di bawah ini agar mendeteksi angka GENAP (sisa bagi dengan 2 adalah 0):<br><br><code>if angka % 2 _______</code>",
-            jawabanBenar: "== 0:",
-            hint: "Gunakan operator perbandingan sama dengan ganda dan jangan lupa tanda titik dua di akhir struktur Python.",
-            xpBonus: 45
+            nama: "3. The Guard Gates (Kalkulator)",
+            deskripsi: "Sekarang kamu menguji rancangan 'Satpam Validasi' milikmu sendiri. Masukkan skenario pengujian ekstrim untuk melihat ketangguhan arsitektur pelindungmu.",
+            isKalkulator: true
         },
         4: {
-            nama: "Level 4: Perulangan While",
-            materi: "Perulangan <code>while</code> berjalan terus-menerus selama kondisi bernilai benar (True). Pastikan menambahkan nilai pencacah (*increment*) di dalam loop agar tidak terjadi infinite loop.",
-            challenge: "Lengkapi struktur kode loop agar berjalan terus selama variabel 'i' kurang dari atau sama dengan 5:<br><br><code>while i _______</code>",
-            jawabanBenar: "<= 5:",
-            hint: "Gunakan operator kurang dari atau sama dengan, akhiri dengan tanda titik dua.",
-            xpBonus: 45
+            nama: "4. Mekanisme Kompilasi & Build",
+            deskripsi: "Kode teks (seperti .py atau .js) tidak bisa langsung berjalan di Android atau Windows. Kode tersebut harus dikompilasi menjadi instruksi biner mesin.",
+            pertanyaan: "Alat apa yang digunakan di ekosistem Python untuk membundel skrip kode beserta dependensinya menjadi satu file eksekutif (.exe) mandiri?",
+            pilihan: ["PyInstaller", "Pip", "Virtualenv", "GitHub Pages"],
+            jawaban: 0,
+            edukasi: "PyInstaller membundel interpreter Python, kode kamu, dan library yang digunakan ke dalam satu paket biner, sehingga komputer target tidak perlu menginstal Python lagi untuk menjalankannya."
         },
         5: {
-            nama: "Level 5: Proyek Kalkulator Magic",
-            materi: "Selamat! Kamu sampai di level akhir. Di sini kamu akan menguji sistem arsitektur pengaman 'The Guard Gates' untuk menangani input user agar tidak terjadi runtime error.",
-            challenge: "Mainkan simulator kalkulator di bawah dengan memasukkan angka dan operator aritmatika pilihanmu.",
-            hint: "Uji coba skenario pembagian dengan angka 0 untuk melihat bagaimana satpam validasi mengamankan sistem!",
-            xpBonus: 50
+            nama: "5. Simulator Build APK/EXE",
+            deskripsi: "Mari kita simulasikan proses pembentukan paket distribusi aplikasi (Deployment Pipeline).",
+            isDeployer: true
         }
     };
 
-    let userStatus = {
-        currentLevel: 1,
-        openedLevels: [1],
-        xp: 0
-    };
+    let userState = { current: 1, opened: [1] };
 
-    // FUNGSI UNTUK MERENDER PETA LEVEL
-    function renderLevelMaps() {
-        const mapsContainer = document.getElementById('level-maps');
-        mapsContainer.innerHTML = '';
-        
-        for (let i = 1; i <= 5; i++) {
+    function renderMaps() {
+        const container = document.getElementById('level-maps');
+        container.innerHTML = '';
+        for(let i=1; i<=5; i++) {
             let card = document.createElement('div');
-            if (userStatus.openedLevels.includes(i)) {
-                if (i < userStatus.currentLevel) {
-                    card.className = "level-card completed";
-                    card.innerHTML = `✓ ${databaseLevel[i].nama}`;
-                } else {
-                    card.className = "level-card active";
-                    card.innerHTML = `🎮 ${databaseLevel[i].nama}`;
-                }
-                card.onclick = () => loadWorkspace(i);
+            if(userState.opened.includes(i)) {
+                card.className = i < userState.current ? "level-card completed" : "level-card active";
+                card.onclick = () => loadLevel(i);
             } else {
                 card.className = "level-card locked";
-                card.innerHTML = `🔒 ${databaseLevel[i].nama}`;
             }
-            mapsContainer.appendChild(card);
+            card.innerText = databaseLevel[i].nama;
+            container.appendChild(card);
         }
-        
-        // Atur Progress Bar Secara Akurat
-        let progressPercent = ((userStatus.openedLevels.length) / 5) * 100;
-        document.getElementById('total-progress').style.width = `${progressPercent}%`;
-        document.getElementById('xp-display').innerText = `✨ ${userStatus.xp} XP`;
     }
 
-    // FUNGSI UNTUK MEMUAT AREA KERJA LEVEL KETIKA DIKLIK
-    function loadWorkspace(lvlNum) {
+    function loadLevel(num) {
         const arena = document.getElementById('arena-bermain');
-        const petunjuk = document.getElementById('petunjuk-box');
-        const data = databaseLevel[lvlNum];
-        
+        const lvl = databaseLevel[num];
+        document.getElementById('global-terminal').innerText = `Memuat ${lvl.nama}...`;
+
+        if (lvl.isKalkulator) {
+            arena.innerHTML = `
+                <h3>${lvl.nama}</h3>
+                <p>${lvl.deskripsi}</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:15px;">
+                    <input type="text" id="k-a1" placeholder="Angka 1 (misal: tulisan)">
+                    <input type="text" id="k-op" placeholder="Operator (misal: %)">
+                    <input type="text" id="k-a2" placeholder="Angka 2 (misal: 0)">
+                </div>
+                <button onclick="testKalkulator()">Uji Ketahanan Arsitektur</button>
+                <div class="code-block" id="k-log" style="margin-top:15px; font-family:monospace;">Menunggu injeksi data uji...</div>
+                <button onclick="passLevel(${num})" style="margin-top:15px; background:#27ae60;">Paham, Lanjutkan Pipeline</button>
+            `;
+        } else if (lvl.isDeployer) {
+            arena.innerHTML = `
+                <h3>${lvl.nama}</h3>
+                <p>${lvl.deskripsi}</p>
+                <p>Pilih Target Platform Kompilasi:</p>
+                <button onclick="simulasiDeploy('Windows (.EXE)')">Build Windows Client (.EXE)</button>
+                <button onclick="simulasiDeploy('Android (.APK)')" style="background:#27ae60;">Build Android Package (.APK)</button>
+                <div class="code-block" id="deploy-log" style="margin-top:15px; background:#000; color:#00ff00; font-family:monospace; min-height:120px;">[System] Pipeline menganggur. Siap melakukan kompilasi biner.</div>
+            `;
+        } else {
+            let optionsHtml = '';
+            lvl.pilihan.forEach((opt, idx) => {
+                optionsHtml += `<div class="quiz-option" onclick="verifyQuiz(${num}, ${idx})">${idx+1}. ${opt}</div>`;
+            });
+
+            arena.innerHTML = `
+                <h3>${lvl.nama}</h3>
+                <p>${lvl.deskripsi}</p>
+                ${lvl.code ? `<pre class="code-block">${lvl.code}</pre>` : ''}
+                <p><b>Pertanyaan Analisis:</b> ${lvl.pertanyaan}</p>
+                <div>${optionsHtml}</div>
+                <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
+            `;
+        }
         arena.style.display = "block";
-        petunjuk.innerHTML = `<b>Level ${lvlNum} Hint:</b> ${data.hint}`;
+    }
 
-        if (lvlNum !== 5) {
-            // Template HTML untuk Level 1 sampai 4
-            arena.innerHTML = `
-                <h3>${data.nama}</h3>
-                <div class="grid-2">
-                    <div class="box">
-                        <h4>📖 Materi Pembelajaran</h4>
-                        <p>${data.materi}</p>
-                    </div>
-                    <div class="box">
-                        <h4>🎯 Challenge Mission</h4>
-                        <p>${data.challenge}</p>
-                    </div>
-                </div>
-                <div class="box">
-                    <h4>Jawaban Anda:</h4>
-                    <input type="text" id="input-jawaban" placeholder="Ketik jawaban kamu di sini...">
-                    <button onclick="verifikasiJawaban(${lvlNum})">Submit Jawaban</button>
-                </div>
-                <div class="log-box" id="log-output">Sistem Log: Menunggu aksi...</div>
-            `;
+    function verifyQuiz(lvlNum, selectedIdx) {
+        const lvl = databaseLevel[lvlNum];
+        const feedback = document.getElementById('quiz-feedback');
+        const term = document.getElementById('global-terminal');
+
+        if(selectedIdx === lvl.jawaban) {
+            feedback.style.color = varColor('--success');
+            feedback.innerHTML = `<p><b>BENAR!</b></p><p>${lvl.edukasi}</p>`;
+            term.innerText = `[SUCCESS] Modul ${lvlNum} terverifikasi. Kompetensi diperbarui.`;
+            passLevel(lvlNum);
         } else {
-            // Template Khusus Level 5: Kalkulator Magic Sesuai Dokumentasi Rancanganmu
-            arena.innerHTML = `
-                <h3>🧪 Modul Akhir: Simulator Kalkulator Magic</h3>
-                <p>${data.materi}</p>
-                <div class="box" style="background-color: #eef2f7; margin-bottom: 15px;">
-                    <h4>Arsitektur Pengelolaan Input (The Guard Gates)</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                        <div class="box" style="background:#fff;"><b>1. Capture Input:</b> Ambil data angka & operator.</div>
-                        <div class="box" style="background:#fff;"><b>2. Sanitize Logika:</b> Cek ValueError & Pembagian Nol.</div>
-                        <div class="box" style="background:#fff;"><b>3. Execute:</b> Tampilkan hasil kalkulasi aman.</div>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label>Masukkan Angka Pertama:</label>
-                        <input type="text" id="magic-n1" placeholder="Contoh: 12">
-                    </div>
-                    <div>
-                        <label>Masukkan Operator (+, -, *, /):</label>
-                        <input type="text" id="magic-op" placeholder="Contoh: /">
-                    </div>
-                    <div>
-                        <label>Masukkan Angka Kedua:</label>
-                        <input type="text" id="magic-n2" placeholder="Contoh: 0">
-                    </div>
-                </div>
-                <button onclick="jalankanKalkulatorMagicEngine()">Jalankan Mesin Kalkulator</button>
-                <h4>Output Terminal Monitor:</h4>
-                <div class="log-box" id="terminal-output">=== SIMULATOR KALKULATOR MAGIC ===\nStatus: Siap menerima input.</div>
-            `;
+            feedback.style.color = varColor('--danger');
+            feedback.innerHTML = `<p><b>ANALISIS SALAH.</b> Coba telusuri kembali alur pembacaan kodenya baris demi baris.</p>`;
+            term.innerText = `[WARN] Kesalahan logika terdeteksi pada analisis modul ${lvlNum}.`;
         }
     }
 
-    // ENGINE UNTUK MENGECEK JAWABAN USER (LEVEL 1-4)
-    function verifikasiJawaban(lvlNum) {
-        const userAns = document.getElementById('input-jawaban').value.trim().toLowerCase();
-        const correctAns = databaseLevel[lvlNum].jawabanBenar.toLowerCase();
-        const log = document.getElementById('log-output');
+    function testKalkulator() {
+        const a1 = document.getElementById('k-a1').value;
+        const op = document.getElementById('k-op').value.trim();
+        const a2 = document.getElementById('k-a2').value;
+        const log = document.getElementById('k-log');
 
-        if (userAns === correctAns) {
-            log.style.color = "#00ff00";
-            log.innerText = `LOG VALIDASI: [SUKSES] Jawaban tepat! +${databaseLevel[lvlNum].xpBonus} XP diperoleh.`;
-            
-            // Tambah XP jika baru pertama kali menyelesaikan level tersebut
-            if (userStatus.currentLevel === lvlNum) {
-                userStatus.xp += databaseLevel[lvlNum].xpBonus;
-                userStatus.currentLevel++;
-                if (userStatus.openedLevels.length < 5) {
-                    userStatus.openedLevels.push(userStatus.currentLevel);
-                }
-                setTimeout(() => {
-                    renderLevelMaps();
-                    loadWorkspace(userStatus.currentLevel);
-                }, 1500);
+        let num1 = parseFloat(a1);
+        let num2 = parseFloat(a2);
+
+        if (isNaN(num1) || isNaN(num2)) {
+            log.innerHTML = `<span style="color:#ff5964;">[THE GUARD GATES]: INPUT BLOCKED (ValueError Prevention).</span><br>Sistem menolak kalkulasi karena mendeteksi tipe data non-numerik yang dapat merusak struktur komputasi aritmatika alu.`;
+            return;
+        }
+        if (!['+', '-', '*', '/'].includes(op)) {
+            log.innerHTML = `<span style="color:#ff5964;">[THE GUARD GATES]: ILLEGAL OPERATOR SHIELD.</span><br>Operator '${op}' diblokir demi keamanan instruksi pemrosesan data.`;
+            return;
+        }
+        if (op === '/' && num2 === 0) {
+            log.innerHTML = `<span style="color:#ff5964;">[THE GUARD GATES]: CRITICAL RUNTIME PROTECTION (ZeroDivisionError).</span><br>Operasi dibatalkan. Pembagian dengan angka nol dihentikan oleh gerbang ketiga untuk mencegah pembekuan thread pada aplikasi inti.`;
+            return;
+        }
+
+        log.innerHTML = `<span style="color:#4eb783;">[THE GUARD GATES]: PASSED.</span><br>Kalkulasi Aman: ${num1} ${op} ${num2} = ${eval(num1 + op + num2)}`;
+    }
+
+    function simulasiDeploy(target) {
+        const log = document.getElementById('deploy-log');
+        log.innerHTML = `[INFO] Memulai Pipeline Kompilasi untuk ${target}...\n`;
+        
+        let steps = [
+            `[1/4] Membaca manifes dependensi aplikasi... Oke.`,
+            `[2/4] Menerjemahkan Arsitektur Pelindung 'The Guard Gates' ke format biner natif... Oke.`,
+            `[3/4] Mengemas pustaka runtime inti ke dalam paket distribusi... Oke.`,
+            `[4/4] Melakukan penandatanganan digital kriptografi (Signing Application Package)... Oke.`,
+            `[SUKSES] Kompilasi Berhasil! File distribusi siap diunduh.\n\n[DASHBOARD UTAMA]: Selamat, Naqiya! Kamu tidak hanya membuat kode, kamu mengerti bagaimana kode tersebut dibungkus dan didistribusikan ke tangan pengguna akhir secara aman.`
+        ];
+
+        steps.forEach((step, index) => {
+            setTimeout(() => {
+                log.innerHTML += step + "\n";
+            }, (index + 1) * 1200);
+        });
+    }
+
+    function passLevel(num) {
+        if(userState.current === num) {
+            userState.current++;
+            if(!userState.opened.includes(userState.current) && userState.current <= 5) {
+                userState.opened.push(userState.current);
             }
-        } else {
-            log.style.color = "#ff4757";
-            log.innerText = `LOG VALIDASI: [GAGAL] Satpam memblokir jawaban. Alasan: Jawaban tidak cocok dengan kunci logika sistem.`;
+            setTimeout(renderMaps, 1000);
         }
     }
 
-    // ENGINE UTAMA KALKULATOR MAGIC PYTHON YANG DIADAPTASI KE JAVASCRIPT
-    function jalankanKalkulatorMagicEngine() {
-        const inputAngka1 = document.getElementById('magic-n1').value;
-        const inputOperator = document.getElementById('magic-op').value.trim();
-        const inputAngka2 = document.getElementById('magic-n2').value;
-        const terminal = document.getElementById('terminal-output');
-
-        terminal.style.color = "#00ff00";
-        let outputText = "=== SIMULATOR KALKULATOR MAGIC ===\n";
-
-        // VALIDASI 1: Memastikan Input adalah Angka (Mencegah ValueError)
-        const angka1 = parseFloat(inputAngka1);
-        const angka2 = parseFloat(inputAngka2);
-        if (isNaN(angka1) || isNaN(angka2) || inputAngka1 === "" || inputAngka2 === "") {
-            terminal.style.color = "#ff4757";
-            terminal.innerText = outputText + "LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Karakter yang dimasukkan bukan angka bulat/desimal!";
-            return;
-        }
-
-        // VALIDASI 2: Memastikan Operator Sesuai Aturan Standar
-        const operatorValid = ['+', '-', '*', '/'];
-        if (!operatorValid.includes(inputOperator)) {
-            terminal.style.color = "#ff4757";
-            terminal.innerText = outputText + `LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Operator '${inputOperator}' tidak dikenal!`;
-            return;
-        }
-
-        // VALIDASI 3: Pencegahan Kebocoran Logika Sistem (Division by Zero)
-        if (inputOperator === '/' && angka2 === 0) {
-            terminal.style.color = "#ff4757";
-            terminal.innerText = outputText + "LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Pembagian dengan angka 0 akan merusak alam semesta komputer (Runtime Error)!";
-            return;
-        }
-
-        // PROSES UTAMA INTEGRASI ARITMATIKA
-        let hasil = 0;
-        if (inputOperator === '+') hasil = angka1 + angka2;
-        else if (inputOperator === '-') hasil = angka1 - angka2;
-        else if (inputOperator === '*') hasil = angka1 * angka2;
-        else if (inputOperator === '/') hasil = angka1 / angka2;
-
-        // OUTPUT SUKSES
-        terminal.innerText = outputText + `LOG VALIDASI: [SUKSES] Data aman. Hasil perhitungan dari ${angka1} ${inputOperator} ${angka2} adalah: ${hasil}`;
+    function varColor(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     }
 
-    // Jalankan aplikasi pertama kali saat halaman dibuka
-    renderLevelMaps();
+    renderMaps();
 </script>
 
 </body>
