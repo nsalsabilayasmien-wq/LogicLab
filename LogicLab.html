@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogicLab - Belajar Logika, Bangun Solusi</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --success: #00b894;
+            --danger: #d63031;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .main-panel, .side-panel {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+
+        .logo h1 { color: var(--primary); margin: 0; }
+        .stats-badges span {
+            background: #ffeaa7;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            background: #eee;
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            width: 40%; /* Initial progress */
+            transition: width 0.5s ease;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .level-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid #e2e8f0;
+        }
+
+        .level-card:hover { transform: translateY(-3px); }
+        .completed { background-color: #e6f4ea; color: var(--success); border-color: var(--success); }
+        .active { background-color: #f3f0ff; color: var(--primary); border-color: var(--primary); }
+        .locked { background-color: #edf2f7; color: #a0aec0; cursor: not-allowed; }
+
+        /* Game Arena Workspace */
+        .workspace {
+            margin-top: 30px;
+            border-top: 2px dashed var(--secondary);
+            padding-top: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { background: #5649c0; }
+
+        .log-box {
+            background: #2d3436;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            min-height: 50px;
+            white-space: pre-line;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="main-panel">
+        <header>
+            <div class="logo">
+                <h1>LogicLab 🧪</h1>
+                <small>Belajar Logika, Bangun Solusi</small>
+            </div>
+            <div class="stats-badges">
+                <span id="xp-display">✨ 120 XP</span>
+                <span>🔥 15 Streak</span>
+                <span>🏆 3 Badges</span>
+            </div>
+        </header>
+
+        <h2>Halo, Naqiya Salsabila! 👋</h2>
+        <p>Siap melanjutkan tantangan coding hari ini?</p>
+        
+        <label>Total Progres Belajar:</label>
+        <div class="progress-container">
+            <div class="progress-bar" id="total-progress"></div>
+        </div>
+
+        <h3>Peta Level Pembelajaran</h3>
+        <div class="level-grid">
+            <div class="level-card completed">✓ Level 1: Flowchart</div>
+            <div class="level-card completed">✓ Level 2: Variabel</div>
+            <div class="level-card active" onclick="loadLevel(3)">🎮 Level 3: Percabangan</div>
+            <div class="level-card locked" id="lvl4">🔒 Level 4: Looping</div>
+            <div class="level-card locked" id="lvl5" onclick="loadLevel(5)">🔒 Level 5: Proyek Kalkulator</div>
+        </div>
+
+        <div class="workspace" id="arena-bermain" style="display:none;">
+            </div>
+    </div>
+
+    <div class="side-panel">
+        <h3>Progres Mingguan</h3>
+        <p>Absensi komitmen belajarmu minggu ini:</p>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span>🟢 Sen</span><span>🟢 Sel</span><span>🟢 Rab</span><span>🟢 Kam</span><span>🔴 Jum</span><span>🔴 Sab</span><span>🔴 Min</span>
+        </div>
+        <hr>
+        <h3>Petunjuk Satpam 👮‍♂️</h3>
+        <p id="petunjuk-box">Pilih salah satu level aktif untuk memunculkan tantangan logikamu!</p>
+    </div>
+</div>
+
+<script>
+    let currentXP = 120;
+    
+    function loadLevel(levelNum) {
+        const arena = document.getElementById('arena-bermain');
+        const petunjuk = document.getElementById('petunjuk-box');
+        arena.style.display = "block";
+
+        if(levelNum === 3) {
+            petunjuk.innerText = "Gunakan operator perbandingan '==' untuk mengecek kondisi ganjil atau genap pada Python.";
+            arena.innerHTML = `
+                <h2>Level 3: Percabangan (If-Else)</h2>
+                <div class="grid-3">
+                    <div class="box">
+                        <h4>Materi Singkat</h4>
+                        <p>Percabangan digunakan untuk membuat keputusan. Contoh:<br><code>if angka % 2 == 0:</code></p>
+                    </div>
+                    <div class="box">
+                        <h4>Challenge</h4>
+                        <p>Lengkapi kondisi IF di bawah agar sistem bisa mendeteksi angka <b>GENAP</b>!</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Jawaban Anda</h4>
+                    <span style="font-family:monospace;">if angka % 2 </span>
+                    <input type="text" id="jawaban-lvl3" placeholder="== 0:" style="width:150px;">
+                    <p style="font-family:monospace; margin-left:20px; margin-top:5px;">print("Genap")</p>
+                    <button onclick="cekJawabanLvl3()">Submit Jawaban</button>
+                </div>
+                <div class="log-box" id="log-lvl3">Menunggu jawaban...</div>
+            `;
+        } 
+        else if(levelNum === 5) {
+            if(document.getElementById('lvl5').classList.contains('locked')) return;
+            petunjuk.innerText = "Uji layer pengaman kalkulatormu. Masukkan berbagai jenis data untuk menguji kekuatannya.";
+            arena.innerHTML = `
+                <h2>Level 5: Proyek Akhir (Kalkulator Magic dengan Validasi)</h2>
+                <div class="grid-3">
+                    <div class="box">
+                        <label>Angka Pertama:</label>
+                        <input type="text" id="calc-n1" placeholder="Contoh: 10">
+                    </div>
+                    <div class="box">
+                        <label>Operator (+, -, *, /):</label>
+                        <input type="text" id="calc-op" placeholder="Contoh: *">
+                    </div>
+                    <div class="box">
+                        <label>Angka Kedua:</label>
+                        <input type="text" id="calc-n2" placeholder="Contoh: 5">
+                    </div>
+                </div>
+                <button onclick="prosesKalkulatorMagic()">Jalankan Kalkulator Magic</button>
+                <h4>Output Log Validasi:</h4>
+                <div class="log-box" id="log-kalkulator">=== SIMULATOR KALKULATOR MAGIC ===</div>
+            `;
+        }
+    }
+
+    function cekJawabanLvl3() {
+        const input = document.getElementById('jawaban-lvl3').value.trim();
+        const log = document.getElementById('log-lvl3');
+        
+        if(input === "== 0:") {
+            log.style.color = "#00ff00";
+            log.innerText = "LOG VALIDASI: [SUKSES] Jawaban Benar! Level 4 & 5 Terbuka.";
+            document.getElementById('lvl4').className = "level-card completed";
+            document.getElementById('lvl4').innerText = "✓ Level 4: Looping";
+            document.getElementById('lvl5').className = "level-card active";
+            document.getElementById('total-progress').style.width = "100%";
+            currentXP += 50;
+            document.getElementById('xp-display').innerText = `✨ ${currentXP} XP`;
+        } else {
+            log.style.color = "#ff4757";
+            log.innerText = "LOG VALIDASI: [GAGAL] Alasan: Sintaks salah atau logika tidak tepat. Coba lagi!";
+        }
+    }
+
+    // Adaptasi Algoritma Python Layer Validasi dari PDF kamu ke JavaScript
+    function prosesKalkulatorMagic() {
+        const input1 = document.getElementById('calc-n1').value;
+        const op = document.getElementById('calc-op').value.trim();
+        const input2 = document.getElementById('calc-n2').value;
+        const log = document.getElementById('log-kalkulator');
+
+        // VALIDASI 1: Cek Angka (ValueError)
+        const n1 = parseFloat(input1);
+        const n2 = parseFloat(input2);
+        if (isNaN(n1) || isNaN(input2)) {
+            log.style.color = "#ff4757";
+            log.innerText = "LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Karakter yang dimasukkan bukan angka!";
+            return;
+        }
+
+        // VALIDASI 2: Cek Operator Valid
+        const operatorValid = ['+', '-', '*', '/'];
+        if (!operatorValid.includes(op)) {
+            log.style.color = "#ff4757";
+            log.innerText = `LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Operator '${op}' tidak dikenal!`;
+            return;
+        }
+
+        // VALIDASI 3: Division by Zero
+        if (op === '/' && n2 === 0) {
+            log.style.color = "#ff4757";
+            log.innerText = "LOG VALIDASI: [GAGAL] Satpam memblokir input. Alasan: Pembagian dengan angka 0 akan merusak alam semesta komputer!";
+            return;
+        }
+
+        // PROSES UTAMA
+        let hasil = 0;
+        if (op === '+') hasil = n1 + n2;
+        else if (op === '-') hasil = n1 - n2;
+        else if (op === '*') hasil = n1 * n2;
+        else if (op === '/') hasil = n1 / n2;
+
+        log.style.color = "#00ff00";
+        log.innerText = `LOG VALIDASI: [SUKSES] Data aman. Hasil perhitungan dari ${n1} ${op} ${n2} adalah: ${hasil}`;
+    }
+</script>
+
+</body>
+</html>
